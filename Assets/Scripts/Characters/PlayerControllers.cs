@@ -9,6 +9,7 @@ public class PlayerControllers : MonoBehaviour
     [Header("Components")]
     [SerializeField] Rigidbody2D rb;
     [SerializeField] TrailRenderer tr;
+    private Interactable currentInteractable;
 
     [Header("Movement")]
     [SerializeField] float moveSpeed = 5f;
@@ -29,6 +30,7 @@ public class PlayerControllers : MonoBehaviour
         }
     }
 
+    #region InputAction
     public void OnDash(InputAction.CallbackContext context)
     {
         if (context.performed && canDash)
@@ -41,6 +43,15 @@ public class PlayerControllers : MonoBehaviour
     {
         moveDir = context.ReadValue<Vector2>();
     }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.performed && currentInteractable != null)
+        {
+            currentInteractable.Interact();
+        }
+    }
+    #endregion
 
     private IEnumerator DashCoroutine()
     {
@@ -58,4 +69,21 @@ public class PlayerControllers : MonoBehaviour
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.TryGetComponent(out Interactable interactable))
+        {
+            currentInteractable = interactable;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.TryGetComponent(out Interactable interactable) && interactable == currentInteractable)
+        {
+            currentInteractable = null;
+        }
+    }
+
 }
