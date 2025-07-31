@@ -9,11 +9,14 @@ public class PlayerControllers : MonoBehaviour
     [Header("Components")]
     [SerializeField] Rigidbody2D rb;
     [SerializeField] TrailRenderer tr;
+    [SerializeField] Animator anim;
+    [SerializeField] SpriteRenderer sprite;
     private Interactable currentInteractable;
 
     [Header("Movement")]
     [SerializeField] float moveSpeed = 5f;
     private Vector2 moveDir;
+    private Vector2 lasMoveDir = Vector2.down;
 
     [Header("Dashing")]
     [SerializeField] float dashSpeed = 20f;
@@ -22,11 +25,33 @@ public class PlayerControllers : MonoBehaviour
     bool isDashing;
     bool canDash = true;
 
+    private void Update()
+    {
+        // Animation Movement
+        anim.SetFloat("xInput", lasMoveDir.x);
+        anim.SetFloat("yInput", lasMoveDir.y);
+        anim.SetFloat("Speed", moveDir.magnitude);
+        PlayerFlip();
+       
+    }
+
     private void FixedUpdate()
     {
         if (!isDashing)
         {
             rb.velocity = moveDir * moveSpeed;
+        }
+    }
+
+    private void PlayerFlip()
+    {
+        if (moveDir.x > 0)
+        {
+            sprite.flipX = false;
+        } 
+        else if (moveDir.x < 0)
+        {
+            sprite.flipX = true;                                                                                                        
         }
     }
 
@@ -42,6 +67,11 @@ public class PlayerControllers : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveDir = context.ReadValue<Vector2>();
+
+        if (moveDir != Vector2.zero)
+        {
+            lasMoveDir = moveDir;
+        }
     }
 
     public void OnInteract(InputAction.CallbackContext context)
@@ -85,5 +115,4 @@ public class PlayerControllers : MonoBehaviour
             currentInteractable = null;
         }
     }
-
 }

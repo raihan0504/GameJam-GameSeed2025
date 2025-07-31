@@ -5,7 +5,7 @@ using UnityEngine;
 public class Ingredient : MonoBehaviour
 {
     [Header("Ingredient Type")]
-    public IngredientType type;
+    public IngredientType ingredientType;
 
     [Header("Grid Position")]
     public int xIndex;
@@ -24,11 +24,23 @@ public class Ingredient : MonoBehaviour
         xIndex = _x;
         yIndex = _y;
     }
+
+    public void SetIndicies (int _x, int _y)
+    {
+        xIndex = _x;
+        yIndex = _y;
+    }
 }
 
 public enum IngredientType
 {
-    red,
-    blue,
-    yellow
+    egg,
+    milk,
+    onion,
+    beef,
+    pork,
+    carrot,
+    chili,
+    cheese,
+    all_spices
 }
