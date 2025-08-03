@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 3014654970845396169}
   - component: {fileID: 2379686584399249529}
   - component: {fileID: 4290465073670915148}
+  - component: {fileID: -552337257042609416}
   m_Layer: 0
   m_Name: Players
   m_TagString: Player
@@ -35,7 +36,8 @@ Transform:
   m_LocalPosition: {x: 0, y: -0.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7597043108802691699}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7260495012219198721
@@ -122,9 +124,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.044814825, y: -0.30390096}
+  m_Offset: {x: 0.0015257597, y: -0.4213996}
   serializedVersion: 2
-  m_Radius: 0.7594502
+  m_Radius: 0.6110308
 --- !u!50 &7491688336880165171
 Rigidbody2D:
   serializedVersion: 4
@@ -403,3 +405,48 @@ MonoBehaviour:
   dashSpeed: 40
   dashDuration: 0.1
   dashCooldown: 0.1
+--- !u!114 &-552337257042609416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1689665446674094279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c9480a18eaaa1244aa118c2a725efd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handSlotName: HandSlot
+  anim: {fileID: 2379686584399249529}
+--- !u!1 &7133398025818569858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7597043108802691699}
+  m_Layer: 0
+  m_Name: HandSlot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7597043108802691699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7133398025818569858}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.02, y: 1.02, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6225308194594289717}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

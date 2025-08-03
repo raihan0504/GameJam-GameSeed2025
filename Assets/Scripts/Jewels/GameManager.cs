@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
     IEnumerator ReturnToMainSceneAfterDelay()
     {
         yield return new WaitForSeconds(resultDisplayDuration);
-        SceneManager.LoadScene("Backyard");
+        SceneManager.LoadScene("Backyard stage 1-1");
     }
 }
 

@@ -7,7 +7,7 @@ public class InventoryManager : MonoBehaviour
 
     // Menyimpan jumlah item berdasarkan tipe PotionType
     private Dictionary<PotionType, int> inventory = new();
-
+   
     private void Awake()
     {
         if (Instance == null)
