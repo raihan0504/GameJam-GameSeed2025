@@ -13,6 +13,19 @@ public class MiniGames : MonoBehaviour
     [Header("Spawn Point")]
     public string spawnPointName;            // nama spawn point di scene tujuan
 
+    //public string canvas = "Canvas";
+    //private GameObject canvasUi;
+
+    //private void Awake()
+    //{
+    //    canvasUi = GameObject.Find("CanvasUI");
+    //}
+
+    //public void UITimer()
+    //{
+    //    canvasUi.SetActive(false);
+    //}
+
     public void MiniGame()
     {
         StartCoroutine(LoadSceneWithSpawn());

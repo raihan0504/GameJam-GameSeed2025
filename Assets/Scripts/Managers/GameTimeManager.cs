@@ -1,72 +1,74 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro; // Kalau pakai TextMeshPro
-using UnityEngine.UI;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 public class GameTimeManager : MonoBehaviour
 {
+    public static GameTimeManager instance;
+
     [Header("UI")]
     public TMP_Text timerText;
-    public TMP_Text statusText; // Misalnya: "Before Opening", "Orders Open"
+    public TMP_Text statusText;
 
     [Header("Order Manager")]
-    public OrderManager orderManager; // Drag komponen OrderManager ke sini
+    public OrderManager orderManager;
 
-    [Header("Waktu dalam detik")]
-    public float preOpenTime = 180f; // 3 menit sebelum buka
-    public float openTime = 180f;    // 3 menit buka
+    [Header("Waktu (detik)")]
+    public float preOpenTime = 180f; // 3 menit before opening
+    public float openTime = 180f;    // 3 menit shift
 
-    private float timer;
+    private float currentTimer;
     private bool isOrderingPhase = false;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // Agar tetap ada di semua scene
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
-        timer = preOpenTime + openTime;
+        currentTimer = preOpenTime;
+        statusText.text = "Before Opening";
+        timerText.text = FormatTime(currentTimer);
+
         if (orderManager != null)
-            orderManager.enabled = false; // Matikan order saat pre-opening
+            orderManager.enabled = false;
     }
 
     private void Update()
     {
-        if (timer > 0)
+        if (currentTimer > 0)
         {
-            timer -= Time.deltaTime;
+            currentTimer -= Time.deltaTime;
             UpdateTimerUI();
-
-            if (!isOrderingPhase && timer <= openTime)
+        }
+        else
+        {
+            if (!isOrderingPhase)
             {
                 StartOrderingPhase();
             }
+            else
+            {
+                EndGame();
+            }
         }
-        else
-        {
-            EndGame();
-        }
-    }
-
-    void UpdateTimerUI()
-    {
-        int minutes = Mathf.FloorToInt(timer / 60f);
-        int seconds = Mathf.FloorToInt(timer % 60f);
-
-        if (timer > openTime)
-        {
-            statusText.text = "Before Opening";
-        }
-        else
-        {
-            statusText.text = "Orders Open";
-        }
-
-        timerText.text = $"{minutes}:{seconds:00}";
     }
 
     void StartOrderingPhase()
     {
         isOrderingPhase = true;
-        Debug.Log("[TimeManager] Order Phase Started");
+        currentTimer = openTime;
+        statusText.text = "Orders Open";
 
         if (orderManager != null)
         {
@@ -77,28 +79,37 @@ public class GameTimeManager : MonoBehaviour
 
     void EndGame()
     {
-        timer = 0;
-        Debug.Log("[TimeManager] Shift Ended");
+        currentTimer = 0;
         statusText.text = "Shift Ended";
+        Debug.Log("[TimeManager] Shift Ended");
 
         StartCoroutine(NextStageCoroutine());
+        enabled = false; // Hentikan Update
     }
 
     IEnumerator NextStageCoroutine()
     {
-        yield return new WaitForSeconds(2f); // Tunggu sebentar (opsional)
-
-
-        int nextSceneIndex = 3;
-
+        yield return new WaitForSeconds(2f);
+        int nextSceneIndex = 3; // Ganti sesuai build index
         if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
         {
             SceneManager.LoadScene(nextSceneIndex);
         }
         else
         {
-            Debug.LogWarning("Tidak ada scene berikutnya. Tetap di stage ini.");
+            Debug.LogWarning("Tidak ada scene berikutnya.");
         }
     }
 
+    void UpdateTimerUI()
+    {
+        timerText.text = FormatTime(currentTimer);
+    }
+
+    string FormatTime(float time)
+    {
+        int minutes = Mathf.FloorToInt(time / 60f);
+        int seconds = Mathf.FloorToInt(time % 60f);
+        return $"{minutes}:{seconds:00}";
+    }
 }

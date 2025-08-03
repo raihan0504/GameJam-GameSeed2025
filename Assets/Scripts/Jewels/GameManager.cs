@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    //public string canvas = "Canvas";
+    //private GameObject canvasUi;
+
     [Header("Timer")]
     public float timeLimit = 60f;
     private float timer;
@@ -17,10 +20,12 @@ public class GameManager : MonoBehaviour
 
     [Header("UI Result Panel")]
     public GameObject resultPanel;
-    public Transform resultContainer; // Parent untuk prefab item
+    public Transform resultContainer;
     public GameObject resultItemPrefab;
-    public float resultDisplayDuration = 5f;
     public GameObject panelIngredient;
+
+    [Header("Next Stage Button")]
+    public Button nextStageButton; // tombol ini muncul saat game selesai
 
     [Header("Icon Lookup")]
     public PotionIcon[] potionIcons;
@@ -28,6 +33,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        //canvasUi = GameObject.Find("CanvasUI");
+
         if (Instance == null)
             Instance = this;
         else
@@ -40,8 +47,9 @@ public class GameManager : MonoBehaviour
         isGameEnded = false;
 
         resultPanel.SetActive(false);
+        if (nextStageButton != null)
+            nextStageButton.gameObject.SetActive(false); // tombol disembunyikan di awal
 
-        // Bangun dictionary lookup icon
         foreach (var p in potionIcons)
         {
             if (!iconLookup.ContainsKey(p.type))
@@ -89,13 +97,17 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        StartCoroutine(ReturnToMainSceneAfterDelay());
+        if (nextStageButton != null)
+            nextStageButton.gameObject.SetActive(true); // tampilkan tombol "Next Stage"
     }
 
-    IEnumerator ReturnToMainSceneAfterDelay()
+    // Fungsi untuk tombol "Next Stage"
+    public void OnNextStageButtonClicked()
     {
-        yield return new WaitForSeconds(resultDisplayDuration);
+      
         SceneManager.LoadScene("Backyard stage 1-1");
+        //canvasUi.SetActive(true);
+
     }
 }
 

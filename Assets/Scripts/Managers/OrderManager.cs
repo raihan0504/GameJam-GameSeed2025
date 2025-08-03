@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class OrderManager : MonoBehaviour
 {
+    public static OrderManager instance;
+
     [Header("Prefab Permintaan Menu")]
     public List<GameObject> orderPrefabs; // Satu prefab per DishType
 
@@ -13,6 +15,19 @@ public class OrderManager : MonoBehaviour
     public int maxOrders = 3;
 
     private List<GameObject> currentOrders = new();
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // Agar tetap ada di semua scene
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {

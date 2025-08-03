@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PuzzleCore 1-2.unity
     guid: 9073f53893f01a344afc484b9bd7637f
+  - enabled: 1
+    path: Assets/Scenes/Main Menu.unity
+    guid: 93b372714848abe4cba0c80d1d785bdd
   m_configObjects: {}

@@ -41,7 +41,7 @@ public class InventoryUiUpdater : MonoBehaviour
     private void Update()
     {
         // Tekan tombol I untuk buka/tutup inventory
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             ToggleInventory();
         }
